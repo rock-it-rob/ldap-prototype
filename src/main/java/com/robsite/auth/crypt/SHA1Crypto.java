@@ -14,6 +14,11 @@ public class SHA1Crypto
   private static final String ALGORITHM = "SHA-1";
 
   /**
+   * Creates a new default instance.
+   */
+  public SHA1Crypto() {}
+
+  /**
    * Generates a digest object for SHA-1.
    *
    * @return <code>MessageDigest</code> set for SHA-1 hashing.
@@ -23,10 +28,23 @@ public class SHA1Crypto
     try
     {
       return MessageDigest.getInstance(ALGORITHM);
-    }
-    catch (NoSuchAlgorithmException e)
+    } catch (NoSuchAlgorithmException e)
     {
       throw new RuntimeException(e);
     }
+  }
+
+  /**
+   * Hashes a string using the SHA-1 algorithm.
+   *
+   * @param message the source string to hash.
+   * @return the <code>String</code> value of the resulting hash.
+   */
+  public String digest(String message)
+  {
+    MessageDigest messageDigest = createDigest();
+    messageDigest.update(message.getBytes());
+
+    return new String(messageDigest.digest());
   }
 }
