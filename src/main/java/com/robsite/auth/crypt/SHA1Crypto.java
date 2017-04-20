@@ -5,7 +5,7 @@ import java.security.NoSuchAlgorithmException;
 
 /**
  * The <code>SHA1Crypto</code> class provides functionality for hashing values
- *  using the SHA1 algorithm.
+ * using the SHA1 algorithm.
  *
  * @author Rob Benton
  */
@@ -36,6 +36,8 @@ public class SHA1Crypto
 
   /**
    * Hashes a string using the SHA-1 algorithm.
+   * <p>
+   * The resulting string is a string of byte values.
    *
    * @param message the source string to hash.
    * @return the <code>String</code> value of the resulting hash.
@@ -43,8 +45,12 @@ public class SHA1Crypto
   public String digest(String message)
   {
     MessageDigest messageDigest = createDigest();
-    messageDigest.update(message.getBytes());
+    StringBuilder sb = new StringBuilder();
+    for (byte b : messageDigest.digest(message.getBytes()))
+    {
+      sb.append(String.format("%02x", b));
+    }
 
-    return new String(messageDigest.digest());
+    return sb.toString();
   }
 }
