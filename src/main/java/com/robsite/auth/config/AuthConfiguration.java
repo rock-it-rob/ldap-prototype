@@ -4,6 +4,7 @@ import com.robsite.auth.challenge.Authenticate;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 
 /**
  * <code>AuthConfiguration</code> is a spring configuration bean. It is the
@@ -23,8 +24,28 @@ public class AuthConfiguration
    * @return {@link Authenticate} a bean initialized for the current context.
    */
   @Bean
-  public Authenticate authenticate()
+  public Authenticate authenticateDefault()
   {
     return (u, p) -> true;
+  }
+
+  /**
+   * This implementation of the {@link Authenticate} interface returns a class
+   * that uses ldap to perform authentication.
+   *
+   * @return {@link Authenticate}
+   */
+  @Bean
+  @Profile("ldap")
+  public Authenticate authenticateLdap()
+  {
+    return new Authenticate()
+    {
+      @Override
+      public boolean authenticate(String user, String password)
+      {
+        return true;
+      }
+    };
   }
 }
