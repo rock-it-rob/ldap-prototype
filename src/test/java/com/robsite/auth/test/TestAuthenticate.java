@@ -2,6 +2,7 @@ package com.robsite.auth.test;
 
 import com.robsite.auth.challenge.Authenticate;
 import org.junit.Test;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import static org.junit.Assert.*;
 
@@ -21,6 +22,7 @@ public class TestAuthenticate
 
   private String user;
   private String password;
+  private AnnotationConfigApplicationContext context;
 
   /**
    */
@@ -38,6 +40,7 @@ public class TestAuthenticate
     }
     this.user = p.getProperty("user");
     this.password = p.getProperty("password");
+    this.context = new AnnotationConfigApplicationContext(com.robsite.auth.config.AuthConfiguration.class);
   }
 
   @Test
