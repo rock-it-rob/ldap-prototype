@@ -44,10 +44,10 @@ public class TestAuthenticate
   }
 
   @Test
-  public void testLogin()
+  public void testDefault()
   {
     Authenticate auth = this.context.getBean(Authenticate.class);
-    System.out.println("Authenticating " + this.user + "/" + this.password);
-    assertTrue(auth.authenticate(this.user, this.password));
+    System.out.println("Authenticating dummy/dummy");
+    assertTrue(auth.authenticate("dummy", "dummy"));
   }
 }
