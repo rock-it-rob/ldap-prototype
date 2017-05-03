@@ -24,6 +24,7 @@ public class AuthConfiguration
    * @return {@link Authenticate} a bean initialized for the current context.
    */
   @Bean
+  @Profile("default")
   public Authenticate authenticateDefault()
   {
     return (u, p) -> true;

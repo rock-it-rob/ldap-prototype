@@ -1,6 +1,7 @@
 package com.robsite.auth.test;
 
 import com.robsite.auth.challenge.Authenticate;
+import com.robsite.auth.config.AuthConfiguration;
 import org.junit.Test;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
@@ -22,7 +23,6 @@ public class TestAuthenticate
 
   private String user;
   private String password;
-  private AnnotationConfigApplicationContext context;
 
   /**
    */
@@ -40,14 +40,26 @@ public class TestAuthenticate
     }
     this.user = p.getProperty("user");
     this.password = p.getProperty("password");
-    this.context = new AnnotationConfigApplicationContext(com.robsite.auth.config.AuthConfiguration.class);
   }
 
   @Test
   public void testDefault()
   {
-    Authenticate auth = this.context.getBean(Authenticate.class);
+    AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(com.robsite.auth.config.AuthConfiguration.class);
+    Authenticate auth = context.getBean(Authenticate.class);
     System.out.println("Authenticating dummy/dummy");
     assertTrue(auth.authenticate("dummy", "dummy"));
+  }
+
+  @Test
+  public void testLdap()
+  {
+    AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
+    context.getEnvironment().addActiveProfile("ldap");
+    context.register(AuthConfiguration.class);
+    context.refresh();
+    Authenticate auth = context.getBean(Authenticate.class);
+    System.out.println("Authenticating " + this.user + "/" + this.password);
+    assertTrue(auth.authenticate(this.user, this.password));
   }
 }
