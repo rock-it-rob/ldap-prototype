@@ -1,5 +1,8 @@
 package com.robsite.auth.config;
 
+import com.robsite.auth.challenge.Authenticate;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 /**
@@ -10,6 +13,18 @@ import org.springframework.context.annotation.Configuration;
  * @author Rob Benton
  */
 @Configuration
+@ComponentScan
 public class AuthConfiguration
 {
+  /**
+   * Returns the default authentication implementation. This implementation is
+   * empty and always returns true.
+   *
+   * @return {@link Authenticate} a bean initialized for the current context.
+   */
+  @Bean
+  public Authenticate authenticate()
+  {
+    return (u, p) -> true;
+  }
 }

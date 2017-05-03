@@ -46,10 +46,8 @@ public class TestAuthenticate
   @Test
   public void testLogin()
   {
-    Authenticate auth = new Authenticate();
-    auth.setUser(this.user);
-    auth.setPassword(this.password);
+    Authenticate auth = this.context.getBean(Authenticate.class);
     System.out.println("Authenticating " + this.user + "/" + this.password);
-    assertTrue(auth.authenticate());
+    assertTrue(auth.authenticate(this.user, this.password));
   }
 }
