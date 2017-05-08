@@ -6,6 +6,7 @@ package com.robsite.auth.challenge;
  *
  * @author Rob Benton
  */
+@FunctionalInterface
 public interface Authenticate
 {
   /**
