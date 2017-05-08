@@ -3,6 +3,7 @@ package com.robsite.auth.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.ldap.core.ContextSource;
 import org.springframework.ldap.core.LdapTemplate;
 import org.springframework.ldap.core.support.LdapContextSource;
@@ -18,6 +19,7 @@ import java.util.Properties;
  * @author Rob Benton
  */
 @Configuration
+@Profile("ldap")
 public class LdapConfiguration
 {
   private static final String LDAP_PROPERTIES = "/ldap.properties";
