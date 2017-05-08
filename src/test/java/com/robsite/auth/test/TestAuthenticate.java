@@ -62,4 +62,17 @@ public class TestAuthenticate
     System.out.println("Authenticating " + this.user + "/" + this.password);
     assertTrue(auth.authenticate(this.user, this.password));
   }
+
+  @Test
+  public void testLdapBadAuth()
+  {
+    AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
+    context.getEnvironment().addActiveProfile("ldap");
+    context.register(AuthConfiguration.class);
+    context.refresh();
+    Authenticate auth = context.getBean(Authenticate.class);
+    String password = this.password + "junk";
+    System.out.println("Attempting to authenicate invalid credentials " + this.user + "/" + password);
+    assertFalse(auth.authenticate(this.user, password));
+  }
 }

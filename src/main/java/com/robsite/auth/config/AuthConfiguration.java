@@ -1,10 +1,14 @@
 package com.robsite.auth.config;
 
 import com.robsite.auth.challenge.Authenticate;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.ldap.AuthenticationException;
+import org.springframework.ldap.core.LdapTemplate;
+import org.springframework.ldap.query.LdapQueryBuilder;
 
 /**
  * <code>AuthConfiguration</code> is a spring configuration bean. It is the
@@ -38,15 +42,18 @@ public class AuthConfiguration
    */
   @Bean
   @Profile("ldap")
-  public Authenticate authenticateLdap()
+  public Authenticate authenticateLdap(@Autowired LdapTemplate ldapTemplate)
   {
-    return new Authenticate()
+    return (user, password) ->
     {
-      @Override
-      public boolean authenticate(String user, String password)
+      boolean auth = false;
+      try
       {
-        return true;
-      }
+        ldapTemplate.authenticate(LdapQueryBuilder.query().where("uid").is(user), password);
+        auth = true;
+      } catch (AuthenticationException e) { /* ignore */ }
+
+      return auth;
     };
   }
 }
